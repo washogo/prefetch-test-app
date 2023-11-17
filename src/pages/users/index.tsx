@@ -32,7 +32,9 @@ export const getServerSideProps = async () => {
   const idList = allUsers.map((user) => user.id);
   const fetchUserOne = async () =>
     fetch(`https://jsonplaceholder.typicode.com/users/${idList[0]}`)
-      .then((res) => res.json())
+      .then((res) => {
+        return res.json();
+      })
       .catch((e) => {
         console.log(e);
         store.dispatch(setError(e));
