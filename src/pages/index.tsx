@@ -3,10 +3,12 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
+import { store } from './_app'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const error = store.getState().error.value
   return (
     <>
       <Head>
@@ -18,6 +20,7 @@ export default function Home() {
       <main className={`${styles.main} ${inter.className}`}>
         <div>Home</div>
         <Link href="/users">Users Page</Link>
+        <div>{error}</div>
       </main>
     </>
   )

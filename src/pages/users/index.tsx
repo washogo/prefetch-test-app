@@ -33,7 +33,7 @@ export const getServerSideProps = async () => {
 
   const idList = allUsers.map((user) => user.id);
   const fetchUserOne = async () =>
-    fetch(`https://jsonplaceholder.typicode.com/users/${idList[0]}`)
+    fetch(`https://jsonplaceholder.typicode.com/users/${idList[20]}`)
       .then((res) => {
         return res.json();
       })
@@ -51,6 +51,7 @@ export const getServerSideProps = async () => {
 export default function Users({ resUserOne }: { resUserOne: User }) {
   const router = useRouter();
   const [text, setText] = useState('');
+  const error = store.getState().error.value;
 
   const handle1 = () => {
     setText('handle1');
@@ -65,6 +66,7 @@ export default function Users({ resUserOne }: { resUserOne: User }) {
   return (
     <div>
       <h2>Users</h2>
+      <div>{error}</div>
       <p>{resUserOne.id}</p>
       <p>{text}</p>
       <button onClick={handle1}>handle1</button>
