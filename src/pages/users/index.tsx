@@ -1,4 +1,6 @@
+import { useRouter } from 'next/router';
 import { errorSlice, store } from '../_app';
+import { useState } from 'react';
 
 type User = {
   id: number;
@@ -26,7 +28,7 @@ type User = {
 
 export const getServerSideProps = async () => {
   const resAllUsers = await fetch('https://jsonplaceholder.typicode.com/users/');
-  const allUsers = resAllUsers.json() as unknown as User[];
+  const allUsers = (await resAllUsers.json()) as unknown as User[];
   const { setError } = errorSlice.actions;
 
   const idList = allUsers.map((user) => user.id);
@@ -47,10 +49,28 @@ export const getServerSideProps = async () => {
 };
 
 export default function Users({ resUserOne }: { resUserOne: User }) {
+  const router = useRouter();
+  const [text, setText] = useState('');
+
+  const handle1 = () => {
+    setText('handle1');
+  };
+  const handle2 = () => {
+    setText('handle2');
+  };
+  const handle3 = () => {
+    setText('handle3');
+  };
+
   return (
     <div>
-      <h1>Users</h1>
+      <h2>Users</h2>
       <p>{resUserOne.id}</p>
+      <p>{text}</p>
+      <button onClick={handle1}>handle1</button>
+      <button onClick={handle2}>handle2</button>
+      <button onClick={handle3}>handle3</button>
+      <button onClick={() => router.push('/')}>back home</button>
     </div>
   );
 }
