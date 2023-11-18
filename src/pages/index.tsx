@@ -1,14 +1,16 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import Link from 'next/link'
-import { store } from './_app'
+import Head from 'next/head';
+import Image from 'next/image';
+import { Inter } from 'next/font/google';
+import styles from '@/styles/Home.module.css';
+import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/contexts/store';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const error = store.getState().error.value
+  const error = useSelector((state: RootState) => state.error.value);
+
   return (
     <>
       <Head>
@@ -20,8 +22,8 @@ export default function Home() {
       <main className={`${styles.main} ${inter.className}`}>
         <div>Home</div>
         <Link href="/users">Users Page</Link>
-        <div>{error}</div>
+        {error && <div>{error}</div>}
       </main>
     </>
-  )
+  );
 }

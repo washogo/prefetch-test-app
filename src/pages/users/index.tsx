@@ -1,5 +1,6 @@
+import { store } from '@/contexts/store';
+import { setError } from '@/features/error/errorSlice';
 import { useRouter } from 'next/router';
-import { errorSlice, store } from '../_app';
 import { useState } from 'react';
 
 type User = {
@@ -29,29 +30,29 @@ type User = {
 export const getServerSideProps = async () => {
   const resAllUsers = await fetch('https://jsonplaceholder.typicode.com/users/');
   const allUsers = (await resAllUsers.json()) as unknown as User[];
-  const { setError } = errorSlice.actions;
 
   const idList = allUsers.map((user) => user.id);
   const fetchUserOne = async () =>
-    fetch(`https://jsonplaceholder.typicode.com/users/${idList[20]}`)
+    fetch(`https://jsonplaceholder.typicode.com/users/${idList[0]}`)
       .then((res) => {
+        store.dispatch(setError('エラー発生テスト'));
         return res.json();
       })
       .catch((e) => {
         console.log(e);
-        store.dispatch(setError(e));
+        store.dispatch(setError('エラー発生'));
       });
   const resUserOne = await fetchUserOne();
+  const error = store.getState().error.value;
 
   return {
-    props: { resUserOne },
+    props: { error, resUserOne },
   };
 };
 
-export default function Users({ resUserOne }: { resUserOne: User }) {
+export default function Users({ error, resUserOne }: { error: string; resUserOne: User }) {
   const router = useRouter();
   const [text, setText] = useState('');
-  const error = store.getState().error.value;
 
   const handle1 = () => {
     setText('handle1');
