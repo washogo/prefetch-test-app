@@ -11,6 +11,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
+/** サーバー側でもクライアント側でもMyAppコンポーネントが実行されるようにする */
+// サーバー側でReduxのstoreが初期化され、各ページで状態が共有されることでエラー情報も共有されることになる
 MyApp.getInitialProps = async (context: AppContext) => {
   return {};
 };

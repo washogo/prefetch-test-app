@@ -43,16 +43,20 @@ export const getServerSideProps = async () => {
         store.dispatch(setError('エラー発生'));
       });
   const resUserOne = await fetchUserOne();
-  const error = store.getState().error.value;
+  /** propsにエラー情報を含めるバージョン */
+  // const error = store.getState().error.value;
 
   return {
-    props: { error, resUserOne },
+    /** propsにエラー情報を含めるバージョン */
+    // props: { error, resUserOne },
+    props: { resUserOne },
   };
 };
 
 export default function Users({ error, resUserOne }: { error: string; resUserOne: User }) {
   const router = useRouter();
   const [text, setText] = useState('');
+  const err = store.getState().error.value;
 
   const handle1 = () => {
     setText('handle1');
@@ -67,7 +71,7 @@ export default function Users({ error, resUserOne }: { error: string; resUserOne
   return (
     <div>
       <h2>Users</h2>
-      <div>{error}</div>
+      <div>{error || err}</div>
       <p>{resUserOne.id}</p>
       <p>{text}</p>
       <button onClick={handle1}>handle1</button>
